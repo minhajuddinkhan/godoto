@@ -2,11 +2,17 @@ package controllers
 
 import (
 	"net/http"
-	"fmt"
+	"io"
 )
 
-func Health(w http.ResponseWriter, r *http.Request) {
+func Hero(w http.ResponseWriter, r *http.Request) {
 	
-		w.WriteHeader(http.StatusOK)
-		fmt.Fprintf(w, "health200");
+
+	resp, err := http.Get("https://api.opendota.com/api/heroes")
+	if err != nil {
+        // handle error
+        return
+    }
+    defer resp.Body.Close()
+    io.Copy(w, resp.Body)
 }
