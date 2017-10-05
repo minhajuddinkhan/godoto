@@ -1,12 +1,17 @@
 package web
 
 import (
-	"github.com/gorilla/mux"
 	"../controllers"
+	"github.com/gorilla/mux"
 )
 
-func Up(r mux.Router)  *mux.Router {
+var (
+	heroCtrl = controllers.HeroController{}
+)
 
-	r.HandleFunc("/heroes", controllers.Hero);
-	return &r;
+func Up(r mux.Router) *mux.Router {
+
+	r.HandleFunc("/heroes", heroCtrl.FindAndDumpHeroes()).Methods("POST")
+	r.HandleFunc("/heroes", heroCtrl.GetAllHeroes()).Methods("GET")
+	return &r
 }
