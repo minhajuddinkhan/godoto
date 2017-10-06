@@ -1,8 +1,10 @@
 package repos
 
 import (
-	mongo "../db"
-	models "../models"
+	"fmt"
+
+	mongo "github.com/minhajuddinkhan/godoto/lib/db"
+	models "github.com/minhajuddinkhan/godoto/lib/models"
 	"gopkg.in/mgo.v2"
 )
 
@@ -20,7 +22,7 @@ func FindAll() []models.Hero {
 
 	err := mongo.WithCollection("heroes", query)
 	if err != nil {
-		panic(err)
+		fmt.Errorf("error in query", err)
 	}
 	return heroes
 }

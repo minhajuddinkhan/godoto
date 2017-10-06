@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 
@@ -28,9 +29,11 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 }
 
 //GetAllHeroes gets all Heroes from db
-func (HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Request) {
+func (h *HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Println("yolo")
+
 		heroes := repos.FindAll()
 		json.NewEncoder(w).Encode(heroes)
 	}
