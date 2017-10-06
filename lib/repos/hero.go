@@ -40,3 +40,11 @@ func DumpHeroes(heroes []models.Hero) {
 	}
 	return
 }
+
+//InsertHero repo layer
+func InsertHero(hero *models.Hero) error {
+	query := func(c *mgo.Collection) error {
+		return c.Insert(&hero)
+	}
+	return mongo.WithCollection("heroes", query)
+}

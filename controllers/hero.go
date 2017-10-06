@@ -24,8 +24,8 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 		if err != nil {
 			fmt.Println(err)
 		}
-		repoErr := repos.DumpHeroes(heroes)
-		fmt.Println(repoErr)
+		//		repoErr := repos.DumpHeroes(heroes)
+		//		fmt.Println(repoErr)
 		json.NewEncoder(w).Encode(heroes)
 
 	}
@@ -45,14 +45,9 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		roles := []string{"key"}
-		hero := models.Hero{
-			name:        "name",
-			localName:   "localName",
-			primaryAttr: "primaryAttr",
-			attacKType:  "attacKType",
-			legs:        2
-		};
+		hero := models.Hero{}
+		repos.InsertHero(&hero{"name"})
 
-		
 	}
+
 }
