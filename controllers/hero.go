@@ -24,7 +24,7 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 		if err != nil {
 			fmt.Println(err)
 		}
-		err := repos.DumpHeroes(&heroes)
+		err = repos.DumpHeroes(&heroes)
 		if err != nil {
 			fmt.Println("err executing dump query", err)
 		} else {
