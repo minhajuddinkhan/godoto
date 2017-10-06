@@ -11,7 +11,8 @@ var (
 
 func Up(r mux.Router) *mux.Router {
 
-	r.HandleFunc("/heroes", heroCtrl.FindAndDumpHeroes()).Methods("POST")
+	r.HandleFunc("/heroes", heroCtrl.InsertHero()).Methods("POST")
+	r.HandleFunc("/heroes", heroCtrl.FindAndDumpHeroes()).Methods("PUT")
 	r.HandleFunc("/heroes", heroCtrl.GetAllHeroes()).Methods("GET")
 	return &r
 }

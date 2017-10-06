@@ -6,7 +6,8 @@ import (
 	"net/http"
 
 	models "github.com/minhajuddinkhan/godoto/lib/models"
-	repos "github.com/minhajuddinkhan/godoto/lib/repos"
+	//repos "github.com/minhajuddinkhan/godoto/lib/repos"
+	repos "../lib/repos"
 )
 
 // HeroController that has methods as Request Handlers
@@ -44,10 +45,13 @@ func (h *HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Requ
 func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		roles := []string{"key"}
 		hero := models.Hero{}
-		repos.InsertHero(&hero{"name"})
-
+		json.NewDecoder(r.Body).Decode(&hero)
+		err := repos.InsertHero(&hero)
+		if err == nil {
+			fmt.Println("err executing insert query")
+		}
+		json.NewEncoder(w).Encode(hero)
 	}
 
 }
