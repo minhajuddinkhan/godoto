@@ -45,7 +45,14 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		roles := []string{"key"}
-		repos.InsertHero(&hero)
+		hero := models.Hero{
+			name:        "name",
+			localName:   "localName",
+			primaryAttr: "primaryAttr",
+			attacKType:  "attacKType",
+			legs:        2
+		};
 
+		
 	}
 }
