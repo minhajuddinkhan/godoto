@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	models "github.com/minhajuddinkhan/godoto/lib/models"
-	//repos "github.com/minhajuddinkhan/godoto/lib/repos"
-	repos "../lib/repos"
+	repos "github.com/minhajuddinkhan/godoto/lib/repos"
+	//	repos "../lib/repos"
 )
 
 // HeroController that has methods as Request Handlers
