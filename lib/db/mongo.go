@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	db       string = "test"
-	mongoURI string = "mongodb://localhost:27017" + db
+	db       string = "godoto"
+	mongoURI string = "mongodb://godoto:godoto@ds013495.mlab.com:13495/" + db
 )
 
 var (
@@ -25,6 +25,7 @@ func getSession() *mgo.Session {
 	return mgoSession.Clone()
 }
 
+//WithCollection C wrapper
 func WithCollection(collection string, s func(*mgo.Collection) error) error {
 	session := getSession()
 	defer session.Close()
