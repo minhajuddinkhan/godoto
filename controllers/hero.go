@@ -6,7 +6,7 @@ import (
 	"io"
 	"net/http"
 
-	repos "../lib/repos"
+	repos "github.com/minhajuddinkhan/godoto/lib/repos"
 )
 
 // HeroController that has methods as Request Handlers
