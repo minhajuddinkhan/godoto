@@ -3,9 +3,9 @@ package controllers
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 
+	models "github.com/minhajuddinkhan/godoto/lib/models"
 	repos "github.com/minhajuddinkhan/godoto/lib/repos"
 )
 
@@ -17,13 +17,16 @@ type HeroController struct {
 func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		resp, err := http.Get("https://api.opendota.com/api/heroes")
+		resp, _ := http.Get("https://api.opendota.com/api/heroes")
+
+		heroes := []models.Hero{}
+		err := json.NewDecoder(resp.Body).Decode(&heroes)
 		if err != nil {
-			// handle error
-			panic(err)
+			fmt.Println(err)
 		}
-		defer resp.Body.Close()
-		io.Copy(w, resp.Body)
+		repoErr := repos.DumpHeroes(heroes)
+		fmt.Println(repoErr)
+		json.NewEncoder(w).Encode(heroes)
 
 	}
 }
@@ -32,16 +35,17 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 func (h *HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("yolo")
-
 		heroes := repos.FindAll()
 		json.NewEncoder(w).Encode(heroes)
 	}
 }
 
 //InsertHero inserts Hero in db
-// func (HeroController) InsertHero() func(w http.ResponseWriter, r *http.Request) {
+func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Request) {
 
-// 	return func(w http.ResponseWriter, r *http.Request) {
-// 	}
-// }
+	return func(w http.ResponseWriter, r *http.Request) {
+		roles := []string{"key"}
+		repos.InsertHero(&hero)
+
+	}
+}
