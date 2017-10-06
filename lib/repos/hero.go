@@ -28,17 +28,18 @@ func FindAll() []models.Hero {
 }
 
 // DumpHeroes dumps all heroes in monogdb
-func DumpHeroes(heroes []models.Hero) {
+func DumpHeroes(heroes *[]models.Hero) error {
 
-	heroes = []models.Hero{}
 	query := func(c *mgo.Collection) error {
-		return c.Insert(heroes)
+		return c.Insert(&heroes)
 	}
 	err := mongo.WithCollection("heroes", query)
 	if err != nil {
-		panic(err)
+		fmt.Println("query broke at repo layer")
+	} else {
+		fmt.Println("query ran fine at repo layer dump.")
 	}
-	return
+	return err
 }
 
 //InsertHero repo layer

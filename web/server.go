@@ -1,8 +1,8 @@
 package web
 
 import (
+	"../controllers"
 	"github.com/gorilla/mux"
-	"github.com/minhajuddinkhan/godoto/controllers"
 )
 
 var (
