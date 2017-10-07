@@ -19,11 +19,12 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 	return func(w http.ResponseWriter, r *http.Request) {
 		resp, _ := http.Get("https://api.opendota.com/api/heroes")
 
-		heroes := []models.Hero{}
+		var heroes []models.Hero
 		err := json.NewDecoder(resp.Body).Decode(&heroes)
 		if err != nil {
 			fmt.Println(err)
 		}
+
 		err = repos.DumpHeroes(&heroes)
 		if err != nil {
 			fmt.Println("err executing dump query", err)
@@ -49,7 +50,7 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 
 	return func(w http.ResponseWriter, r *http.Request) {
 
-		hero := models.Hero{}
+		var hero models.Hero
 		json.NewDecoder(r.Body).Decode(&hero)
 		fmt.Println(&hero)
 		err := repos.InsertHero(&hero)

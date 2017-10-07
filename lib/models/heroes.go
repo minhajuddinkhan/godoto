@@ -1,9 +1,9 @@
 package models
 
 type Hero struct {
-	name        string
-	localName   string
-	primaryAtrr string
-	attackType  string
-	legs        int
+	Name        string
+	LocalName   string
+	PrimaryAtrr string
+	AttackType  string
+	Legs        int
 }
