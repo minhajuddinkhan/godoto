@@ -31,7 +31,7 @@ func FindAll() []models.Hero {
 func DumpHeroes(heroes *[]models.Hero) error {
 
 	query := func(c *mgo.Collection) error {
-		return c.Insert(&heroes)
+		return c.Insert(heroes)
 	}
 	err := mongo.WithCollection("heroes", query)
 	if err != nil {
