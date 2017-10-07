@@ -4,6 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strconv"
+
+	"github.com/gorilla/mux"
 
 	models "github.com/minhajuddinkhan/godoto/lib/models"
 	repos "github.com/minhajuddinkhan/godoto/lib/repos"
@@ -21,6 +24,14 @@ type HeroController struct {
 func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
+
+		secret := r.Header.Get("secret")
+		if secret != "godumpheroesforme" {
+			w.WriteHeader(http.StatusUnauthorized)
+			json.NewEncoder(w).Encode(http.StatusText(http.StatusUnauthorized))
+			return
+		}
+
 		resp, _ := http.Get("https://api.opendota.com/api/heroes")
 
 		var heroes []models.Hero
@@ -30,14 +41,7 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 		}
 
 		for _, hero := range heroes {
-
-			go heroRepo.InsertHero(&hero)
-			if err != nil {
-				fmt.Println("err executing dump query", err)
-			} else {
-				fmt.Println("dump ran fine.")
-			}
-
+			heroRepo.InsertHero(&hero)
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(heroes)
@@ -70,4 +74,22 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 		json.NewEncoder(w).Encode(hero)
 	}
 
+}
+
+//GetHero gets hero by Id
+func (h *HeroController) GetHero() func(w http.ResponseWriter, r *http.Request) {
+
+	return func(w http.ResponseWriter, r *http.Request) {
+
+		heroID, _ := strconv.ParseInt(mux.Vars(r)["heroId"], 4, 10)
+		hero := models.Hero{}
+		err := heroRepo.FindOne(heroID, &hero)
+		if err != nil {
+			fmt.Println("err executing find query", err)
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(hero)
+
+	}
 }

@@ -17,6 +17,7 @@ func Up() {
 	r.HandleFunc("/heroes", heroCtrl.InsertHero()).Methods("POST")
 	r.HandleFunc("/heroes", heroCtrl.FindAndDumpHeroes()).Methods("PUT")
 	r.HandleFunc("/heroes", heroCtrl.GetAllHeroes()).Methods("GET")
+	r.HandleFunc("/heroes/{heroId}", heroCtrl.GetHero()).Methods("GET")
 	r.PathPrefix("/").Handler(http.StripPrefix("/", http.FileServer(http.Dir("./static/"))))
 	http.Handle("/", r)
 }

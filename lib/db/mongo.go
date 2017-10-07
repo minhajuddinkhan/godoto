@@ -1,6 +1,8 @@
 package mongo
 
 import (
+	"fmt"
+
 	"gopkg.in/mgo.v2"
 )
 
@@ -18,7 +20,7 @@ func getSession() *mgo.Session {
 		var err error
 		mgoSession, err = mgo.Dial(mongoURI)
 		if err != nil {
-			panic(err)
+			fmt.Println("cant connect to Mongodb", err)
 		}
 
 	}

@@ -3,6 +3,8 @@ package repos
 import (
 	"fmt"
 
+	"gopkg.in/mgo.v2/bson"
+
 	mongo "github.com/minhajuddinkhan/godoto/lib/db"
 	models "github.com/minhajuddinkhan/godoto/lib/models"
 	"gopkg.in/mgo.v2"
@@ -59,4 +61,24 @@ func (h *HeroRepo) InsertHero(hero *models.Hero) error {
 		fmt.Println("error in insert", err)
 	}
 	return err
+}
+
+//FindOne finds one hero
+func (h *HeroRepo) FindOne(heroID int64, hero *models.Hero) error {
+
+	query := func(c *mgo.Collection) error {
+		err := c.Find(bson.M{"id": heroID}).One(&hero)
+		if err != nil {
+			fmt.Println("query broke", err)
+
+		}
+		return err
+	}
+
+	err := mongo.WithCollection("heroes", query)
+	if err != nil {
+		fmt.Println("can't find one -repo layer")
+	}
+	return err
+
 }
