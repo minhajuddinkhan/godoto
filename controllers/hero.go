@@ -41,6 +41,7 @@ func (h *HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Requ
 
 	return func(w http.ResponseWriter, r *http.Request) {
 		heroes := repos.FindAll()
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(heroes)
 	}
 }
@@ -52,7 +53,7 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 
 		var hero models.Hero
 		json.NewDecoder(r.Body).Decode(&hero)
-		fmt.Println(&hero)
+		fmt.Println(hero)
 		err := repos.InsertHero(&hero)
 		if err != nil {
 			fmt.Println("err executing insert query", err)

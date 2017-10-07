@@ -45,7 +45,15 @@ func DumpHeroes(heroes *[]models.Hero) error {
 //InsertHero repo layer
 func InsertHero(hero *models.Hero) error {
 	query := func(c *mgo.Collection) error {
-		return c.Insert(&hero)
+		err := c.Insert(hero)
+		if err != nil {
+			fmt.Println("Cant insert", err)
+		}
+		return err
 	}
-	return mongo.WithCollection("heroes", query)
+	err := mongo.WithCollection("heroes", query)
+	if err != nil {
+		fmt.Println("error in insert", err)
+	}
+	return err
 }

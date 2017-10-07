@@ -1,9 +1,9 @@
 package models
 
 type Hero struct {
-	Name        string
-	LocalName   string
-	PrimaryAtrr string
-	AttackType  string
-	Legs        int
+	Name        string `json:"name"`
+	LocalName   string `json:"localized_name"`
+	PrimaryAtrr string `json:"primary_attr"`
+	AttackType  string `json:"attack_type"`
+	Legs        int    `json:"legs"`
 }
