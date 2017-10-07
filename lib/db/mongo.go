@@ -17,7 +17,7 @@ func getSession() *mgo.Session {
 	if mgoSession == nil {
 		var err error
 		mgoSession, err = mgo.Dial(mongoURI)
-		if err == nil {
+		if err != nil {
 			panic(err)
 		}
 

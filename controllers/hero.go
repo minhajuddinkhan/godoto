@@ -9,6 +9,10 @@ import (
 	repos "github.com/minhajuddinkhan/godoto/lib/repos"
 )
 
+var (
+	heroRepo = repos.HeroRepo{}
+)
+
 // HeroController that has methods as Request Handlers
 type HeroController struct {
 }
@@ -25,12 +29,17 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 			fmt.Println(err)
 		}
 
-		err = repos.DumpHeroes(&heroes)
-		if err != nil {
-			fmt.Println("err executing dump query", err)
-		} else {
-			fmt.Println("dump ran fine.")
+		for _, hero := range heroes {
+
+			go heroRepo.InsertHero(&hero)
+			if err != nil {
+				fmt.Println("err executing dump query", err)
+			} else {
+				fmt.Println("dump ran fine.")
+			}
+
 		}
+		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(heroes)
 
 	}
@@ -40,7 +49,7 @@ func (h *HeroController) FindAndDumpHeroes() func(w http.ResponseWriter, r *http
 func (h *HeroController) GetAllHeroes() func(w http.ResponseWriter, r *http.Request) {
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		heroes := repos.FindAll()
+		heroes := heroRepo.FindAll()
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(heroes)
 	}
@@ -54,7 +63,7 @@ func (h *HeroController) InsertHero() func(w http.ResponseWriter, r *http.Reques
 		var hero models.Hero
 		json.NewDecoder(r.Body).Decode(&hero)
 		fmt.Println(hero)
-		err := repos.InsertHero(&hero)
+		err := heroRepo.InsertHero(&hero)
 		if err != nil {
 			fmt.Println("err executing insert query", err)
 		}

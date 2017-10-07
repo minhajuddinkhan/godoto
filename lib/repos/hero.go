@@ -12,8 +12,11 @@ var (
 	heroes []models.Hero
 )
 
+type HeroRepo struct {
+}
+
 //FindAll gets all heroes
-func FindAll() []models.Hero {
+func (h *HeroRepo) FindAll() []models.Hero {
 
 	heroes = []models.Hero{}
 	query := func(c *mgo.Collection) error {
@@ -28,7 +31,7 @@ func FindAll() []models.Hero {
 }
 
 // DumpHeroes dumps all heroes in monogdb
-func DumpHeroes(heroes *[]models.Hero) error {
+func (h *HeroRepo) DumpHeroes(heroes *[]models.Hero) error {
 
 	query := func(c *mgo.Collection) error {
 		return c.Insert(heroes)
@@ -43,7 +46,7 @@ func DumpHeroes(heroes *[]models.Hero) error {
 }
 
 //InsertHero repo layer
-func InsertHero(hero *models.Hero) error {
+func (h *HeroRepo) InsertHero(hero *models.Hero) error {
 	query := func(c *mgo.Collection) error {
 		err := c.Insert(hero)
 		if err != nil {
